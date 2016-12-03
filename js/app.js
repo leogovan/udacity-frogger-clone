@@ -9,6 +9,12 @@ var Enemy = function(x, y) {
     this.speed = enemySpeed;
     // Loading the enemy image
     this.sprite = 'images/enemy-bug.png';
+    this.enemyRect = {
+        x: this.x,
+        y: this.y,
+        width: 50,
+        height: 50
+    };
 };
 
 // Update the enemy's position, required method for game
@@ -19,9 +25,6 @@ Enemy.prototype.update = function(dt) {
     if (this.x > 500) {
         this.x = -80;
     }
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
 };
 
 // Draw the enemy on the screen
@@ -29,18 +32,46 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+
+// Collisions
+Enemy.prototype.collisions = function() {
+    if (enemyRect.x < enemyPlayer.x + enemyPlayer.width &&
+        enemyRect.x + enemyRect.width > enemyPlayer.x &&
+        enemyRect.y < enemyPlayer.y + enemyPlayer.height &&
+        enemyRect.height + enemyRect.y > enemyPlayer.y) {
+        // collision detected!
+        console.log("Collision is detected.");
+    }
+};
+
 // Player class
 var Player = function() {
     // player start co-ordinates
     this.x = 200;
-    this.y = 300;
+    this.y = 400;
     // Loading the player image
     this.sprite = 'images/char-boy.png';
+    this.playerRect = {
+        x: this.x,
+        y: this.y,
+        width: 50,
+        height: 50
+    };
+    console.log(this.playerRect);
 };
 
 // Update method
 Player.prototype.update = function() {
+    if (this.y < 5) {
+        this.reset();
+    }
+};
 
+// Reset method
+
+Player.prototype.reset = function () {
+    this.x = 200;
+    this.y = 400;
 };
 
 // Render method
@@ -79,7 +110,7 @@ Player.prototype.handleInput = function(key) {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var allEnemies = [new Enemy(0, 60), new Enemy(0, 145), new Enemy(0, 230), new Enemy(0,195)];
+var allEnemies = [new Enemy(0, 60), new Enemy(0, 145), new Enemy(0, 230), new Enemy(0, 195)];
 var player = new Player();
 
 
