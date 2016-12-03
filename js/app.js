@@ -35,10 +35,10 @@ Enemy.prototype.render = function() {
 
 // Collisions
 Enemy.prototype.collisions = function() {
-    if (enemyRect.x < enemyPlayer.x + enemyPlayer.width &&
-        enemyRect.x + enemyRect.width > enemyPlayer.x &&
-        enemyRect.y < enemyPlayer.y + enemyPlayer.height &&
-        enemyRect.height + enemyRect.y > enemyPlayer.y) {
+    if (enemyRect.x < playerRect.x + playerRect.width &&
+        enemyRect.x + enemyRect.width > playerRect.x &&
+        enemyRect.y < playerRect.y + playerRect.height &&
+        enemyRect.height + enemyRect.y > playerRect.y) {
         // collision detected!
         console.log("Collision is detected.");
     }
