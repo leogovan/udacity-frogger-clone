@@ -1,3 +1,5 @@
+var gameStatus = ["Game On", "Game Over"];
+
 // Enemies our player must avoid
 var Enemy = function(x, y) {
     // Setting the Enemy initial location (you need to implement)
@@ -9,8 +11,8 @@ var Enemy = function(x, y) {
     this.speed = enemySpeed;
     // Loading the enemy image
     this.sprite = 'images/enemy-bug.png';
-    this.width = 50;
-    this.height = 50;
+    this.width = 5;
+    this.height = 5;
 };
 
 // Update the enemy's position, required method for game
@@ -21,7 +23,7 @@ Enemy.prototype.update = function(dt) {
     if (this.x > 500) {
         this.x = -80;
     }
-    Enemy.prototype.collisions();
+    this.collisions();
 };
 
 // Draw the enemy on the screen
@@ -29,15 +31,16 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-
-// Collisions
+// Collisions - this is bound to an instance of the enemy
 Enemy.prototype.collisions = function() {
-    if (this.enemy.x < this.player.x + this.player.width &&
-        this.enemy.x + this.enemy.width > this.player.x &&
-        this.enemy.y < this.player.y + this.player.height &&
-        this.enemy.height + this.enemy.y > this.player.y) {
+    if (this.x < this.x + player.width &&
+        this.x + this.width > player.x &&
+        this.y < player.y + player.height &&
+        this.height + this.y > player.y) {
         // collision detected!
         console.log("Collision is detected.");
+        player.collision();
+        //player.reset();
     }
 };
 
@@ -48,8 +51,9 @@ var Player = function() {
     this.y = 400;
     // Loading the player image
     this.sprite = 'images/char-boy.png';
-    this.width = 50;
-    this.height = 50;
+    this.width = 5;
+    this.height = 5;
+    this.lives = 3;
 };
 
 // Update method
@@ -57,6 +61,14 @@ Player.prototype.update = function() {
     if (this.y < 5) {
         this.reset();
     }
+};
+
+// Player collision rules
+
+Player.prototype.collision = function() {
+    this.lives -= 1;
+    player.reset();
+    console.log(this.lives);
 };
 
 // Reset method
@@ -104,7 +116,6 @@ Player.prototype.handleInput = function(key) {
 // Place the player object in a variable called player
 var allEnemies = [new Enemy(0, 60), new Enemy(0, 145), new Enemy(0, 230), new Enemy(0, 195)];
 var player = new Player();
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
