@@ -9,12 +9,8 @@ var Enemy = function(x, y) {
     this.speed = enemySpeed;
     // Loading the enemy image
     this.sprite = 'images/enemy-bug.png';
-    this.enemyRect = {
-        x: this.x,
-        y: this.y,
-        width: 50,
-        height: 50
-    };
+    this.width = 50;
+    this.height = 50;
 };
 
 // Update the enemy's position, required method for game
@@ -25,6 +21,7 @@ Enemy.prototype.update = function(dt) {
     if (this.x > 500) {
         this.x = -80;
     }
+    Enemy.prototype.collisions();
 };
 
 // Draw the enemy on the screen
@@ -35,10 +32,10 @@ Enemy.prototype.render = function() {
 
 // Collisions
 Enemy.prototype.collisions = function() {
-    if (enemyRect.x < playerRect.x + playerRect.width &&
-        enemyRect.x + enemyRect.width > playerRect.x &&
-        enemyRect.y < playerRect.y + playerRect.height &&
-        enemyRect.height + enemyRect.y > playerRect.y) {
+    if (this.enemy.x < this.player.x + this.player.width &&
+        this.enemy.x + this.enemy.width > this.player.x &&
+        this.enemy.y < this.player.y + this.player.height &&
+        this.enemy.height + this.enemy.y > this.player.y) {
         // collision detected!
         console.log("Collision is detected.");
     }
@@ -51,13 +48,8 @@ var Player = function() {
     this.y = 400;
     // Loading the player image
     this.sprite = 'images/char-boy.png';
-    this.playerRect = {
-        x: this.x,
-        y: this.y,
-        width: 50,
-        height: 50
-    };
-    console.log(this.playerRect);
+    this.width = 50;
+    this.height = 50;
 };
 
 // Update method
@@ -69,7 +61,7 @@ Player.prototype.update = function() {
 
 // Reset method
 
-Player.prototype.reset = function () {
+Player.prototype.reset = function() {
     this.x = 200;
     this.y = 400;
 };
