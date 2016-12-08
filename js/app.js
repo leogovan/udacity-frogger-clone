@@ -2,7 +2,7 @@ var gameStatus = ["Game On", "Game Over"];
 
 // Enemies our player must avoid
 var Enemy = function(x, y) {
-    // Setting the Enemy initial location (you need to implement)
+    // Setting the Enemy initial location
     this.x = x;
     this.y = y;
     // Generating random speed value
@@ -11,8 +11,9 @@ var Enemy = function(x, y) {
     this.speed = enemySpeed;
     // Loading the enemy image
     this.sprite = 'images/enemy-bug.png';
-    this.width = 5;
-    this.height = 5;
+    // Setting the enemy collision area
+    this.width = 100;
+    this.height = 67;
 };
 
 // Update the enemy's position, required method for game
@@ -23,12 +24,24 @@ Enemy.prototype.update = function(dt) {
     if (this.x > 500) {
         this.x = -80;
     }
+    // Runs at each update to check for collisions
     this.collisions();
 };
 
-// Draw the enemy on the screen
+// Helper function to see enemy box area
+function drawBox(x, y, width, height, color) {
+    ctx.beginPath();
+    ctx.rect(x, y, width, height);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+}
+
+// Draws the enemy on the screen
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    // draws boxes around enemy objects
+    drawBox(this.x, this.y + 77, 100, 67, "yellow");
 };
 
 // Collisions - this is bound to an instance of the enemy
@@ -40,7 +53,6 @@ Enemy.prototype.collisions = function() {
         // collision detected!
         console.log("Collision is detected.");
         player.collision();
-        //player.reset();
     }
 };
 
@@ -51,19 +63,21 @@ var Player = function() {
     this.y = 400;
     // Loading the player image
     this.sprite = 'images/char-boy.png';
+    // Player collision area
     this.width = 5;
     this.height = 5;
+    // Player starting lives
     this.lives = 3;
 };
 
-// Update method
+// PLayer update method
 Player.prototype.update = function() {
-    if (this.y < 5) {
-        this.reset();
+    if (this.y < 5) { // if player reaches the water
+        this.reset(); // position resets
     }
 };
 
-// Player collision rules
+// Player collision method
 
 Player.prototype.collision = function() {
     this.lives -= 1;
@@ -71,16 +85,18 @@ Player.prototype.collision = function() {
     console.log(this.lives);
 };
 
-// Reset method
+// Player reset method
 
 Player.prototype.reset = function() {
     this.x = 200;
     this.y = 400;
 };
 
-// Render method
+// Player Render method
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    // draws a box around player object
+    drawBox(this.x + 16, this.y + 62, 70, 78, "blue");
 };
 
 
@@ -110,10 +126,8 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
-
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+// Places all enemy objects in an array called allEnemies
+// Places the player object in a variable called player
 var allEnemies = [new Enemy(0, 60), new Enemy(0, 145), new Enemy(0, 230), new Enemy(0, 195)];
 var player = new Player();
 
