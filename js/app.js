@@ -12,8 +12,14 @@ var Enemy = function(x, y) {
     // Loading the enemy image
     this.sprite = 'images/enemy-bug.png';
     // Setting the enemy collision area
-    this.width = 100;
-    this.height = 67;
+    this.enemyCollisonArea = {
+        x: this.x,
+        y: this.y + 77,
+        width: 100,
+        height: 67
+    };
+    console.log(this.enemyCollisonArea.x + " enemy x");
+    console.log(this.enemyCollisonArea.y + " enemy y");
 };
 
 // Update the enemy's position, required method for game
@@ -28,7 +34,7 @@ Enemy.prototype.update = function(dt) {
     this.collisions();
 };
 
-// Helper function to see enemy box area
+// Helper function to see enemy/player box area
 function drawBox(x, y, width, height, color) {
     ctx.beginPath();
     ctx.rect(x, y, width, height);
@@ -46,10 +52,10 @@ Enemy.prototype.render = function() {
 
 // Collisions - this is bound to an instance of the enemy
 Enemy.prototype.collisions = function() {
-    if (this.x < this.x + player.width &&
-        this.x + this.width > player.x &&
-        this.y < player.y + player.height &&
-        this.height + this.y > player.y) {
+    if (this.enemyCollisonArea.x < this.enemyCollisonArea.x + player.width &&
+        this.enemyCollisonArea.x + this.enemyCollisonArea.width > player.x &&
+        this.enemyCollisonArea.y < player.y + player.height &&
+        this.enemyCollisonArea.height + this.enemyCollisonArea.y > player.y) {
         // collision detected!
         console.log("Collision is detected.");
         player.collision();
@@ -68,6 +74,14 @@ var Player = function() {
     this.height = 5;
     // Player starting lives
     this.lives = 3;
+    this.playerCollisonArea = {
+        x: this.x + 16,
+        y: this.y + 62,
+        width: 70,
+        height: 78
+    };
+    console.log(this.playerCollisonArea.x + " player x");
+    console.log(this.playerCollisonArea.y + " player y");
 };
 
 // PLayer update method
@@ -82,7 +96,7 @@ Player.prototype.update = function() {
 Player.prototype.collision = function() {
     this.lives -= 1;
     player.reset();
-    console.log(this.lives);
+    console.log(this.lives + " lives are left");
 };
 
 // Player reset method
