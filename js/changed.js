@@ -155,5 +155,3 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
-
-console.log(allEnemies[0].collisions);
