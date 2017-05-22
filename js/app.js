@@ -45,12 +45,13 @@ Enemy.prototype.collisions = function() {
         width: player.width,
         height: player.height
     };
+    // check for enemy/player collision based on overlapping boundaries
+    // helper reference: https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
     if (enemyBox.x < playerBox.x + playerBox.width &&
         enemyBox.x + enemyBox.width > playerBox.x &&
         enemyBox.y < playerBox.y + playerBox.height &&
         enemyBox.height + enemyBox.y > playerBox.y) {
-        // collision detected!
-        //console.log("Collision is detected.");
+        // if detected, reset the player
         player.collision();
     }
 };
@@ -67,12 +68,21 @@ var Player = function() {
     this.height = 50;
     // Player starting lives
     this.lives = 3;
+    this.score = 0;
 };
 
 // PLayer update method
 Player.prototype.update = function() {
     if (this.y < 5) { // if player reaches the water
-        this.reset(); // position resets
+        this.score += 1; // update score by one
+        document.getElementById('score').innerHTML = this.score; // update lives counter on the page
+        if (this.score === 5) {
+            alert("Congratulations! You have won the game - click OK to start again");
+            location.reload();
+        } else {
+            this.reset(); // reset player
+        };
+        
     }
 };
 
@@ -133,9 +143,9 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
-// Places all enemy objects in an array called allEnemies
-// Places the player object in a variable called player
+// Instantiates all enemy objects in this array
 var allEnemies = [new Enemy(0, 60), new Enemy(0, 145), new Enemy(0, 230), new Enemy(0, 195)];
+// Instantiates the player object
 var player = new Player();
 
 // This listens for key presses and sends the keys to your
