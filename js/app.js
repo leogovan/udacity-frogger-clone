@@ -1,5 +1,3 @@
-var gameStatus = ["Game On", "Game Over"];
-
 // Enemies our player must avoid
 var Enemy = function(x, y) {
     // Setting the Enemy initial location
@@ -93,8 +91,13 @@ Player.prototype.update = function() {
 
 Player.prototype.collision = function() {
     this.lives -= 1;
-    
-    player.reset();
+    if (this.lives >= 0){
+        document.getElementById('lives').innerHTML = this.lives;
+        player.reset();
+    } else {
+        alert("Game Over - click OK to start again");
+        location.reload();
+    };        
     //console.log(this.lives + " lives are left");
 };
 
