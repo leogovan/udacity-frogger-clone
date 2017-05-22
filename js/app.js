@@ -26,20 +26,9 @@ Enemy.prototype.update = function(dt) {
     this.collisions();
 };
 
-// Helper function to see enemy/player box area
-function drawBox(x, y, width, height, color) {
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = color;
-    ctx.stroke();
-}
-
 // Draws the enemy on the screen
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    // draws boxes around enemy objects
-    drawBox(this.x, this.y + 77, 100, 67, "yellow");
 };
 
 // Collisions - this is bound to an instance of the enemy
@@ -90,15 +79,19 @@ Player.prototype.update = function() {
 // Player collision method
 
 Player.prototype.collision = function() {
+    // decrease player lives by one on each collision
     this.lives -= 1;
+    // check that the player has more than zero lives
     if (this.lives >= 0){
+        // update score on page...
         document.getElementById('lives').innerHTML = this.lives;
+        // and reset the player
         player.reset();
     } else {
+        // if player has no lives, restart the game
         alert("Game Over - click OK to start again");
         location.reload();
-    };        
-    //console.log(this.lives + " lives are left");
+    };
 };
 
 // Player reset method
@@ -111,8 +104,6 @@ Player.prototype.reset = function() {
 // Player Render method
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    // draws a box around player object
-    drawBox(this.x + 16, this.y + 62, 70, 78, "blue");
 };
 
 
