@@ -53,17 +53,17 @@ Enemy.prototype.collisions = function() {
         height: this.height
     };
     var playerBox = {
-        x: this.x,
-        y: this.y,
-        width: this.width,
-        height: this.height
+        x: player.x,
+        y: player.y,
+        width: player.width,
+        height: player.height
     };
-    if (this.enemyBox.x < this.enemyBox.x + player.width &&
-        this.enemyBox.x + this.enemyBox.width > player.x &&
-        this.enemyBox.y < player.y + player.height &&
-        this.enemyBox.height + this.enemyBox.y > player.y) {
+    if (enemyBox.x < playerBox.x + playerBox.width &&
+        enemyBox.x + enemyBox.width > playerBox.x &&
+        enemyBox.y < playerBox.y + playerBox.height &&
+        enemyBox.height + enemyBox.y > playerBox.y) {
         // collision detected!
-        console.log("Collision is detected.");
+        //console.log("Collision is detected.");
         player.collision();
     }
 };
@@ -93,8 +93,9 @@ Player.prototype.update = function() {
 
 Player.prototype.collision = function() {
     this.lives -= 1;
+    
     player.reset();
-    console.log(this.lives + " lives are left");
+    //console.log(this.lives + " lives are left");
 };
 
 // Player reset method
@@ -155,5 +156,3 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
-
-console.log(allEnemies[0].collisions);
